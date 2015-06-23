@@ -1,0 +1,864 @@
+`dnacopy` <- function(set=NULL) {#
+  	data = set$data;#
+	if(is.null(data)) { data = read.table(set$files$file); }#
+  		#
+  		dnac <- function(data, set) {#
+  			CNA.object <- CNA(cbind(data[,4]), paste("chr", data[,1], sep=""), data[,2], data.type="logratio",sampleid="sam1" )	#
+  			smoothed.CNA.object <- smooth.CNA(CNA.object)#
+  			segment.smoothed.CNA.object <- segment(smoothed.CNA.object, verbose=1)#
+			rep = segment.smoothed.CNA.object$output; rep = cbind(rep[,2:4], rep[,6], rep[,5]);#
+			rep = rep[abs(rep[,4])>set$dnacopy$mR,]; #
+			rep = rep[rep[,5]>set$dnacopy$mL,]#
+			rep[,1] = substr(rep[,1], 4 , 10); #
+			rep[,1] = as.integer(rep[,1]);#
+			rep[,2] = as.integer(rep[,2]); #
+			rep[,3] = as.integer(rep[,3]);#
+		invisible(rep)#
+		}#
+	#
+	n = unlist(strsplit(set$files$file, "/"))#
+#	name = paste(set$files$odir, "/", substr(n[length(n)], 0, nchar(n[length(n)])-4), "_FinalReport_dnacopy.txt", sep="")#
+#	rep = dnac(data[data[,4]>0,]);#
+	#rep = cbind(dnac(data[data[,4]>0,]), dnac(data[data[,4]<0,])); #
+#	rep=rep[order(rep[,1],rep[,2],rep[,3]); #
+#	write.table(rep, file=name, sep="\t", quote=F, col.names=F, row.names=F)#
+ # 	return(rep)#
+  }
+`dnacopy` <- function(set=NULL) {#
+  	data = set$data;#
+	if(is.null(data)) { data = read.table(set$files$file); }#
+  		#
+  		dnac <- function(data, set) {#
+  			CNA.object <- CNA(cbind(data[,4]), paste("chr", data[,1], sep=""), data[,2], data.type="logratio",sampleid="sam1" )	#
+  			smoothed.CNA.object <- smooth.CNA(CNA.object)#
+  			segment.smoothed.CNA.object <- segment(smoothed.CNA.object, verbose=1)#
+			rep = segment.smoothed.CNA.object$output; rep = cbind(rep[,2:4], rep[,6], rep[,5]);#
+			rep = rep[abs(rep[,4])>set$dnacopy$mR,]; #
+			rep = rep[rep[,5]>set$dnacopy$mL,]#
+			rep[,1] = substr(rep[,1], 4 , 10); #
+			rep[,1] = as.integer(rep[,1]);#
+			rep[,2] = as.integer(rep[,2]); #
+			rep[,3] = as.integer(rep[,3]);#
+		invisible(rep)#
+		}#
+	#
+	n = unlist(strsplit(set$files$file, "/"))#
+	name = paste(set$files$odir, "/", substr(n[length(n)], 0, nchar(n[length(n)])-4), "_FinalReport_dnacopy.txt", sep="")#
+#	rep = dnac(data[data[,4]>0,]);#
+	#rep = cbind(dnac(data[data[,4]>0,]), dnac(data[data[,4]<0,])); #
+#	rep=rep[order(rep[,1],rep[,2],rep[,3]); #
+#	write.table(rep, file=name, sep="\t", quote=F, col.names=F, row.names=F)#
+ # 	return(rep)#
+  }
+`dnacopy` <- function(set=NULL) {#
+  	data = set$data;#
+	if(is.null(data)) { data = read.table(set$files$file); }#
+  		#
+  		dnac <- function(data, set) {#
+  			CNA.object <- CNA(cbind(data[,4]), paste("chr", data[,1], sep=""), data[,2], data.type="logratio",sampleid="sam1" )	#
+  			smoothed.CNA.object <- smooth.CNA(CNA.object)#
+  			segment.smoothed.CNA.object <- segment(smoothed.CNA.object, verbose=1)#
+			rep = segment.smoothed.CNA.object$output; rep = cbind(rep[,2:4], rep[,6], rep[,5]);#
+			rep = rep[abs(rep[,4])>set$dnacopy$mR,]; #
+			rep = rep[rep[,5]>set$dnacopy$mL,]#
+			rep[,1] = substr(rep[,1], 4 , 10); #
+			rep[,1] = as.integer(rep[,1]);#
+			rep[,2] = as.integer(rep[,2]); #
+			rep[,3] = as.integer(rep[,3]);#
+		invisible(rep)#
+		}#
+	#
+	n = unlist(strsplit(set$files$file, "/"))#
+	name = paste(set$files$odir, "/", substr(n[length(n)], 0, nchar(n[length(n)])-4), "_FinalReport_dnacopy.txt", sep="")#
+	rep = dnac(data[data[,4]>0,]);#
+	#rep = cbind(dnac(data[data[,4]>0,]), dnac(data[data[,4]<0,])); #
+#	rep=rep[order(rep[,1],rep[,2],rep[,3]); #
+#	write.table(rep, file=name, sep="\t", quote=F, col.names=F, row.names=F)#
+ # 	return(rep)#
+  }
+dir()
+af = read.table("final/affy/final_UKBS_Affy_features_hg19.txt")
+af
+af[1,]
+hist(af[,3]-af[,2])
+hist(log(af[,3]-af[,2]))
+hist(log(af[,3]-af[,2]), 200)
+ag = read.table("agilent/a2/recalibrate_novelty_25_UKBS.txt")
+ag[1,]
+ag[1:10,]
+summary(ag)
+hist(log(ag[,3]-ag[,2]), 200)
+summary(ag)
+hist(log(af[,3]-af[,2]), 200)
+hist(log(ag[,3]-ag[,2]), 200)
+hist(log(af[,3]-af[,2]), 200)
+hist(log(ag[,3]-ag[,2]), 200)
+hist(log(ag[,3]-ag[,2]), 200, xlim=c(0,20))
+par(mfrow=c(2,1))
+hist(log(af[,3]-af[,2]), 200, xlab="log size (bp)", main="Affy6.0 Detections")
+par(mfrow=c(1,2))
+hist(log(af[,3]-af[,2]),xlim=c(0,20), 200, xlab="log size (bp)", main="Affy6.0 Detections")
+hist(log(ag[,3]-ag[,2]),xlim=c(0,20), 200, xlab="log size (bp)", main="Agilent DDD Detections")
+hist(log(ag[,3]-ag[,2]),xlim=c(0,20), 200, xlab="log size (bp)", main="DDD Detections")
+hist(log(ag[,3]-ag[,2]),xlim=c(0,20), 200, xlab="log size (bp)", main="Agilent DDD Detections")
+hist(log(af[,3]-af[,2]),xlim=c(0,20), 200, xlab="log size (bp)", main="Affy6.0 Detections")
+hist(log(ag[,3]-ag[,2]),xlim=c(0,20), 200, xlab="log size (bp)", main="DDD Detections")
+af[1,]
+hist(log(af[af[,6]>0,3]-af[af[,6]>0,2]),xlim=c(0,20), 200, xlab="log size (bp)", col="blue")
+hist(log(af[af[,6]>0,3]-af[af[,6]>0,2]),xlim=c(0,20), 100, xlab="log size (bp)", col="blue")
+hist(log(af[af[,6]>0,3]-af[af[,6]>0,2]),xlim=c(0,20), 50, xlab="log size (bp)", col="blue")
+hist(log(af[af[,6]>0,3]-af[af[,6]>0,2]),xlim=c(0,20), 20, xlab="log size (bp)", col="blue")
+ag[1,]
+hist(log(ag[ag[,4]>0,3]-ag[ag[,4]>0,2]),xlim=c(0,20), 20, xlab="log size (bp)", col="blue")
+hist(log(af[af[,6]>0,3]-af[af[,6]>0,2]),xlim=c(0,20), 20, xlab="log size (bp)", col="blue", main="Affy6.0 - Dups")
+hist(log(ag[ag[,4]>0,3]-ag[ag[,4]>0,2]),xlim=c(0,20), 20, xlab="log size (bp)", col="blue", main="DDD Dups")
+hist(log(af[af[,6]<0,3]-af[af[,6]<0,2]),xlim=c(0,20), 20, xlab="log size (bp)", col="red", main="Affy6.0 - Dels")
+hist(log(ag[ag[,4]<0,3]-ag[ag[,4]<0,2]),xlim=c(0,20), 20, xlab="log size (bp)", col="red", main="DDD Dels")
+d = density(log(af[af[,6]<0,3]-af[af[,6]<0,2]))
+d
+plot(d$x,d$y)
+plot(d$x,d$y, type="l")
+plot(d$x,d$y, type="l", xlim=c(0,20),ylab="Density", xlab="log size (bp)", col="red")
+d1 = density(log(af[af[,6]<0,3]-af[af[,6]<0,2]))#
+d2 = density(log(ag[ag[,4]<0,3]-ag[ag[,4]<0,2]))#
+#
+plot(d1$x,d1$y, type="l", xlim=c(0,20),ylab="Density", xlab="log size (bp)", col="green", main="Deletions")#
+matplot(d2$x,d2$y, type="l", xlim=c(0,20),ylab="Density", xlab="log size (bp)", col="blue", add=T)
+d1 = density(log(af[af[,6]>0,3]-af[af[,6]>0,2]))#
+d2 = density(log(ag[ag[,4]>0,3]-ag[ag[,4]>0,2]))#
+#
+plot(d1$x,d1$y, type="l", xlim=c(0,20),ylab="Density", xlab="log size (bp)", col="green", main="Deletions")#
+matplot(d2$x,d2$y, type="l", xlim=c(0,20),ylab="Density", xlab="log size (bp)", col="blue", add=T)
+d1 = density(log(af[af[,6]>0,3]-af[af[,6]>0,2]))#
+d2 = density(log(ag[ag[,4]>0,3]-ag[ag[,4]>0,2]))#
+#
+plot(d1$x,d1$y, type="l", xlim=c(0,20),ylab="Density", xlab="log size (bp)", col="red", lty="dashed", main="Deletions")#
+matplot(d2$x,d2$y, type="l", xlim=c(0,20),ylab="Density", xlab="log size (bp)", col="red", add=T)
+legend("topright", c("Affy", "Agilent"), col="red", lty=c("solid", "dashed"))
+legend("topright", c("Affy", "Agilent"), col="red", lty=c("dashed", "solid"))
+#
+plot(d1$x,d1$y, type="l", xlim=c(0,20),ylab="Density", xlab="log size (bp)", col="red", lty="dashed", main="Deletions")#
+matplot(d2$x,d2$y, type="l", xlim=c(0,20),ylab="Density", xlab="log size (bp)", col="red", add=T)#
+legend("topright", c("Affy", "Agilent"), col="red", lty=c("dashed", "solid"))#
+#
+d1 = density(log(af[af[,6]>0,3]-af[af[,6]>0,2]))#
+d2 = density(log(ag[ag[,4]>0,3]-ag[ag[,4]>0,2]))#
+#
+plot(d1$x,d1$y, type="l", xlim=c(0,20),ylab="Density", xlab="log size (bp)", col="blue", lty="dashed", main="Duplications")#
+matplot(d2$x,d2$y, type="l", xlim=c(0,20),ylab="Density", xlab="log size (bp)", col="blue", add=T)#
+legend("topright", c("Affy", "Agilent"), col="blue", lty=c("dashed", "solid"))
+?density
+plot(af[af[,6]>0,3]-af[af[,6]>0,2])
+plot(af[af[,6]<0,3]-af[af[,6]<0,2])
+d1 = density(log(af[af[,6]<0,3]-af[af[,6]<0,2]))#
+d2 = density(log(ag[ag[,4]<0,3]-ag[ag[,4]<0,2]))#
+#
+#
+#
+plot(d1$x,d1$y, type="l", xlim=c(0,20),ylab="Density", xlab="log size (bp)", col="red", lty="dashed", main="Deletions")#
+matplot(d2$x,d2$y, type="l", xlim=c(0,20),ylab="Density", xlab="log size (bp)", col="red", add=T)#
+legend("topright", c("Affy", "Agilent"), col="red", lty=c("dashed", "solid"))#
+#
+d1 = density(log(af[af[,6]>0,3]-af[af[,6]>0,2]))#
+d2 = density(log(ag[ag[,4]>0,3]-ag[ag[,4]>0,2]))#
+#
+plot(d1$x,d1$y, type="l", xlim=c(0,20),ylab="Density", xlab="log size (bp)", col="blue", lty="dashed", main="Duplications")#
+matplot(d2$x,d2$y, type="l", xlim=c(0,20),ylab="Density", xlab="log size (bp)", col="blue", add=T)#
+legend("topright", c("Affy", "Agilent"), col="blue", lty=c("dashed", "solid"))
+?log
+d1 = density(log10(af[af[,6]<0,3]-af[af[,6]<0,2]))#
+d2 = density(log10(ag[ag[,4]<0,3]-ag[ag[,4]<0,2]))#
+#
+plot(d1$x,d1$y, type="l", xlim=c(0,20),ylab="Density", xlab="log10(length)", col="red", lty="dashed", main="Deletions")#
+matplot(d2$x,d2$y, type="l", xlim=c(0,20),ylab="Density", xlab="log10(length)", col="red", add=T)#
+legend("topright", c("Affy", "Agilent"), col="red", lty=c("dashed", "solid"))#
+#
+d1 = density(log10(af[af[,6]>0,3]-af[af[,6]>0,2]))#
+d2 = density(log10(ag[ag[,4]>0,3]-ag[ag[,4]>0,2]))#
+#
+plot(d1$x,d1$y, type="l", xlim=c(0,20),ylab="Density", xlab="log10(length)", col="blue", lty="dashed", main="Duplications")#
+matplot(d2$x,d2$y, type="l", xlim=c(0,20),ylab="Density", xlab="log10(length)", col="blue", add=T)#
+legend("topright", c("Affy", "Agilent"), col="blue", lty=c("dashed", "solid"))
+> hist(log(af[af[,6]<0,3]-af[af[,6]<0,2]),xlim=c(0,20), 20, xlab="log size (bp)", col="red", main="Affy6.0 - Dels")#
+> hist(log(ag[ag[,4]<0,3]-ag[ag[,4]<0,2]),xlim=c(0,20), 20, xlab="log size (bp)", col="red", main="DDD Dels")#
+#
+d1 = density(log10(af[af[,6]<0,3]-af[af[,6]<0,2]))#
+d2 = density(log10(ag[ag[,4]<0,3]-ag[ag[,4]<0,2]))#
+#
+plot(d1$x,d1$y, type="l", xlim=c(0,10),ylab="Density", xlab="log10(length)", col="red", lty="dashed", main="Deletions")#
+matplot(d2$x,d2$y, type="l", xlim=c(0,10),ylab="Density", xlab="log10(length)", col="red", add=T)#
+legend("topright", c("Affy", "Agilent"), col="red", lty=c("dashed", "solid"))#
+#
+d1 = density(log10(af[af[,6]>0,3]-af[af[,6]>0,2]))#
+d2 = density(log10(ag[ag[,4]>0,3]-ag[ag[,4]>0,2]))#
+#
+plot(d1$x,d1$y, type="l", xlim=c(0,10),ylab="Density", xlab="log10(length)", col="blue", lty="dashed", main="Duplications")#
+matplot(d2$x,d2$y, type="l", xlim=c(0,10),ylab="Density", xlab="log10(length)", col="blue", add=T)#
+legend("topright", c("Affy", "Agilent"), col="blue", lty=c("dashed", "solid"))
+d1 = density(log10(af[af[,6]<0,3]-af[af[,6]<0,2]))#
+d2 = density(log10(ag[ag[,4]<0,3]-ag[ag[,4]<0,2]))#
+#
+plot(d1$x,d1$y, type="l", xlim=c(0,10),ylab="Density", xlab="log10(length)", ylim=c(0,1), col="red", lty="dashed", main="Deletions")#
+matplot(d2$x,d2$y, type="l", xlim=c(0,10),ylab="Density", xlab="log10(length)", col="red", add=T)#
+legend("topright", c("Affy", "Agilent"), col="red", lty=c("dashed", "solid"))#
+#
+d1 = density(log10(af[af[,6]>0,3]-af[af[,6]>0,2]))#
+d2 = density(log10(ag[ag[,4]>0,3]-ag[ag[,4]>0,2]))#
+#
+plot(d1$x,d1$y, type="l", xlim=c(0,10),ylab="Density", xlab="log10(length)", ylim=c(0,1), col="blue", lty="dashed", main="Duplications")#
+matplot(d2$x,d2$y, type="l", xlim=c(0,10),ylab="Density", xlab="log10(length)", col="blue", add=T)#
+legend("topright", c("Affy", "Agilent"), col="blue", lty=c("dashed", "solid"))
+plotOverlappingHist <- function(a, b, colors=c("white","gray20","gray50"),#
+                                breaks=NULL, xlim=NULL, ylim=NULL){#
+ #
+  ahist=NULL#
+  bhist=NULL#
+ #
+  if(!(is.null(breaks))){#
+    ahist=hist(a,breaks=breaks,plot=F)#
+    bhist=hist(b,breaks=breaks,plot=F)#
+  } else {#
+    ahist=hist(a,plot=F)#
+    bhist=hist(b,plot=F)#
+ #
+    dist = ahist$breaks[2]-ahist$breaks[1]#
+    breaks = seq(min(ahist$breaks,bhist$breaks),max(ahist$breaks,bhist$breaks),dist)#
+ #
+    ahist=hist(a,breaks=breaks,plot=F)#
+    bhist=hist(b,breaks=breaks,plot=F)#
+  }#
+ #
+  if(is.null(xlim)){#
+    xlim = c(min(ahist$breaks,bhist$breaks),max(ahist$breaks,bhist$breaks))#
+  }#
+ #
+  if(is.null(ylim)){#
+    ylim = c(0,max(ahist$counts,bhist$counts))#
+  }#
+ #
+  overlap = ahist#
+  for(i in 1:length(overlap$counts)){#
+    if(ahist$counts[i] > 0 & bhist$counts[i] > 0){#
+      overlap$counts[i] = min(ahist$counts[i],bhist$counts[i])#
+    } else {#
+      overlap$counts[i] = 0#
+    }#
+  }#
+ #
+  plot(ahist, xlim=xlim, ylim=ylim, col=colors[1])#
+  plot(bhist, xlim=xlim, ylim=ylim, col=colors[2], add=T)#
+  plot(overlap, xlim=xlim, ylim=ylim, col=colors[3], add=T)#
+}
+plotOverlappingHist <- function(a, b, colors=c("white","gray20","gray50"),#
+                                breaks=NULL, xlim=NULL, ylim=NULL){#
+#
+  ahist=NULL#
+  bhist=NULL#
+#
+  if(!(is.null(breaks))){#
+    ahist=hist(a,breaks=breaks,plot=F)#
+    bhist=hist(b,breaks=breaks,plot=F)#
+  } else {#
+    ahist=hist(a,plot=F)#
+    bhist=hist(b,plot=F)#
+#
+    dist = ahist$breaks[2]-ahist$breaks[1]#
+    breaks = seq(min(ahist$breaks,bhist$breaks),max(ahist$breaks,bhist$breaks),dist)#
+#
+    ahist=hist(a,breaks=breaks,plot=F)#
+    bhist=hist(b,breaks=breaks,plot=F)#
+  }#
+#
+  if(is.null(xlim)){#
+    xlim = c(min(ahist$breaks,bhist$breaks),max(ahist$breaks,bhist$breaks))#
+  }#
+#
+  if(is.null(ylim)){#
+    ylim = c(0,max(ahist$counts,bhist$counts))#
+  }#
+#
+  overlap = ahist#
+  for(i in 1:length(overlap$counts)){#
+    if(ahist$counts[i] > 0 & bhist$counts[i] > 0){#
+      overlap$counts[i] = min(ahist$counts[i],bhist$counts[i])#
+    } else {#
+      overlap$counts[i] = 0#
+    }#
+  }#
+#
+  plot(ahist, xlim=xlim, ylim=ylim, col=colors[1])#
+  plot(bhist, xlim=xlim, ylim=ylim, col=colors[2], add=T)#
+  plot(overlap, xlim=xlim, ylim=ylim, col=colors[3], add=T)#
+}
+a = log10(af[af[,6]>0,3]-af[af[,6]>0,2])#
+b = log10(ag[ag[,4]>0,3]-ag[ag[,4]>0,2])#
+plotOverlappingHist(a,b)
+plotOverlappingHist(a,b)
+class(a)
+summary(a)
+summary(b)
+plotOverlappingHist(a,b, breaks=200)
+plotOverlappingHist(a,b, breaks=20)
+plotOverlappingHist(a,b, breaks=50)
+plotOverlappingHist(a,b, breaks=100)
+legend("jfvh")
+legend("topright", "urhv")
+plotOverlappingHist <- function(a, b, colors=c("white","gray20","gray50"),#
+                                breaks=NULL, xlim=NULL, ylim=NULL){#
+#
+  ahist=NULL#
+  bhist=NULL#
+#
+  if(!(is.null(breaks))){#
+    ahist=hist(a,breaks=breaks,plot=F)#
+    bhist=hist(b,breaks=breaks,plot=F)#
+  } else {#
+    ahist=hist(a,plot=F)#
+    bhist=hist(b,plot=F)#
+#
+    dist = ahist$breaks[2]-ahist$breaks[1]#
+    breaks = seq(min(ahist$breaks,bhist$breaks),max(ahist$breaks,bhist$breaks),dist)#
+#
+    ahist=hist(a,breaks=breaks,plot=F)#
+    bhist=hist(b,breaks=breaks,plot=F)#
+  }#
+#
+  if(is.null(xlim)){#
+    xlim = c(min(ahist$breaks,bhist$breaks),max(ahist$breaks,bhist$breaks))#
+  }#
+#
+  if(is.null(ylim)){#
+    ylim = c(0,max(ahist$counts,bhist$counts))#
+  }#
+#
+  overlap = ahist#
+  for(i in 1:length(overlap$counts)){#
+    if(ahist$counts[i] > 0 & bhist$counts[i] > 0){#
+      overlap$counts[i] = min(ahist$counts[i],bhist$counts[i])#
+    } else {#
+      overlap$counts[i] = 0#
+    }#
+  }#
+#
+  plot(ahist, xlim=xlim, ylim=ylim, col=colors[1], ylab="Number of Detections", xlab="log10(length)")#
+  plot(bhist, xlim=xlim, ylim=ylim, col=colors[2], add=T)#
+  plot(overlap, xlim=xlim, ylim=ylim, col=colors[3], add=T)#
+}
+plotOverlappingHist(a,b, breaks=100)
+plotOverlappingHist <- function(a, b, colors=c("green","blue","gray50"),#
+                                breaks=NULL, xlim=NULL, ylim=NULL){#
+#
+  ahist=NULL#
+  bhist=NULL#
+#
+  if(!(is.null(breaks))){#
+    ahist=hist(a,breaks=breaks,plot=F)#
+    bhist=hist(b,breaks=breaks,plot=F)#
+  } else {#
+    ahist=hist(a,plot=F)#
+    bhist=hist(b,plot=F)#
+#
+    dist = ahist$breaks[2]-ahist$breaks[1]#
+    breaks = seq(min(ahist$breaks,bhist$breaks),max(ahist$breaks,bhist$breaks),dist)#
+#
+    ahist=hist(a,breaks=breaks,plot=F)#
+    bhist=hist(b,breaks=breaks,plot=F)#
+  }#
+#
+  if(is.null(xlim)){#
+    xlim = c(min(ahist$breaks,bhist$breaks),max(ahist$breaks,bhist$breaks))#
+  }#
+#
+  if(is.null(ylim)){#
+    ylim = c(0,max(ahist$counts,bhist$counts))#
+  }#
+#
+  overlap = ahist#
+  for(i in 1:length(overlap$counts)){#
+    if(ahist$counts[i] > 0 & bhist$counts[i] > 0){#
+      overlap$counts[i] = min(ahist$counts[i],bhist$counts[i])#
+    } else {#
+      overlap$counts[i] = 0#
+    }#
+  }#
+#
+  plot(ahist, xlim=xlim, ylim=ylim, col=colors[1], ylab="Number of Detections", xlab="log10 (length)")#
+  plot(bhist, xlim=xlim, ylim=ylim, col=colors[2], add=T)#
+  plot(overlap, xlim=xlim, ylim=ylim, col=colors[3], add=T)#
+}
+plotOverlappingHist(a,b, breaks=100)
+plotOverlappingHist <- function(a, b, colors=c("green","blue","gray50"),#
+                                breaks=NULL, xlim=NULL, ylim=NULL){#
+#
+  ahist=NULL#
+  bhist=NULL#
+#
+  if(!(is.null(breaks))){#
+    ahist=hist(a,breaks=breaks,plot=F)#
+    bhist=hist(b,breaks=breaks,plot=F)#
+  } else {#
+    ahist=hist(a,plot=F)#
+    bhist=hist(b,plot=F)#
+#
+    dist = ahist$breaks[2]-ahist$breaks[1]#
+    breaks = seq(min(ahist$breaks,bhist$breaks),max(ahist$breaks,bhist$breaks),dist)#
+#
+    ahist=hist(a,breaks=breaks,plot=F)#
+    bhist=hist(b,breaks=breaks,plot=F)#
+  }#
+#
+  if(is.null(xlim)){#
+    xlim = c(min(ahist$breaks,bhist$breaks),max(ahist$breaks,bhist$breaks))#
+  }#
+#
+  if(is.null(ylim)){#
+    ylim = c(0,max(ahist$counts,bhist$counts))#
+  }#
+#
+  overlap = ahist#
+  for(i in 1:length(overlap$counts)){#
+    if(ahist$counts[i] > 0 & bhist$counts[i] > 0){#
+      overlap$counts[i] = min(ahist$counts[i],bhist$counts[i])#
+    } else {#
+      overlap$counts[i] = 0#
+    }#
+  }#
+#
+  plot(ahist, xlim=xlim, ylim=ylim, col=colors[1], ylab="Number of Detections", xlab="log10 (length)")#
+  plot(bhist, xlim=xlim, ylim=ylim, col=colors[2], add=T)#
+  plot(overlap, xlim=xlim, ylim=ylim, col=colors[1], add=T)#
+}
+plotOverlappingHist(a,b, breaks=100)
+plotOverlappingHist <- function(a, b, colors=c("green","blue","gray50"),#
+                                breaks=NULL, xlim=NULL, ylim=NULL){#
+#
+  ahist=NULL#
+  bhist=NULL#
+#
+  if(!(is.null(breaks))){#
+    ahist=hist(a,breaks=breaks,plot=F)#
+    bhist=hist(b,breaks=breaks,plot=F)#
+  } else {#
+    ahist=hist(a,plot=F)#
+    bhist=hist(b,plot=F)#
+#
+    dist = ahist$breaks[2]-ahist$breaks[1]#
+    breaks = seq(min(ahist$breaks,bhist$breaks),max(ahist$breaks,bhist$breaks),dist)#
+#
+    ahist=hist(a,breaks=breaks,plot=F)#
+    bhist=hist(b,breaks=breaks,plot=F)#
+  }#
+#
+  if(is.null(xlim)){#
+    xlim = c(min(ahist$breaks,bhist$breaks),max(ahist$breaks,bhist$breaks))#
+  }#
+#
+  if(is.null(ylim)){#
+    ylim = c(0,max(ahist$counts,bhist$counts))#
+  }#
+#
+  overlap = ahist#
+  for(i in 1:length(overlap$counts)){#
+    if(ahist$counts[i] > 0 & bhist$counts[i] > 0){#
+      overlap$counts[i] = min(ahist$counts[i],bhist$counts[i])#
+    } else {#
+      overlap$counts[i] = 0#
+    }#
+  }#
+#
+  plot(ahist, xlim=xlim, ylim=ylim, col=colors[1], ylab="Number of Detections", xlab="log10 (length)", xlim=c(0,10), main="Duplications")#
+  plot(bhist, xlim=xlim, ylim=ylim, col=colors[2], add=T)#
+  plot(overlap, xlim=xlim, ylim=ylim, col=colors[1], add=T)#
+}
+plotOverlappingHist(a,b, breaks=100)
+xlim=c(0,10)
+plotOverlappingHist <- function(a, b, colors=c("green","blue","gray50"),#
+                                breaks=NULL, xlim=NULL, ylim=NULL){#
+#
+  ahist=NULL#
+  bhist=NULL#
+#
+  if(!(is.null(breaks))){#
+    ahist=hist(a,breaks=breaks,plot=F)#
+    bhist=hist(b,breaks=breaks,plot=F)#
+  } else {#
+    ahist=hist(a,plot=F)#
+    bhist=hist(b,plot=F)#
+#
+    dist = ahist$breaks[2]-ahist$breaks[1]#
+    breaks = seq(min(ahist$breaks,bhist$breaks),max(ahist$breaks,bhist$breaks),dist)#
+#
+    ahist=hist(a,breaks=breaks,plot=F)#
+    bhist=hist(b,breaks=breaks,plot=F)#
+  }#
+#
+  if(is.null(xlim)){#
+    xlim = c(min(ahist$breaks,bhist$breaks),max(ahist$breaks,bhist$breaks))#
+  }#
+#
+  if(is.null(ylim)){#
+    ylim = c(0,max(ahist$counts,bhist$counts))#
+  }#
+#
+  overlap = ahist#
+  for(i in 1:length(overlap$counts)){#
+    if(ahist$counts[i] > 0 & bhist$counts[i] > 0){#
+      overlap$counts[i] = min(ahist$counts[i],bhist$counts[i])#
+    } else {#
+      overlap$counts[i] = 0#
+    }#
+  }#
+#
+  plot(ahist, xlim=xlim, ylim=ylim, col=colors[1], ylab="Number of Detections", xlab="log10 (length)", main="Duplications")#
+  plot(bhist, xlim=xlim, ylim=ylim, col=colors[2], add=T)#
+  plot(overlap, xlim=xlim, ylim=ylim, col=colors[1], add=T)#
+}
+plotOverlappingHist(a,b, breaks=100, xlim=c(0,10))
+legend("topright", c("Agilent", "Affy"), col=c("blue", "green"), ley=1, lwd=5)
+legend("topright", c("Agilent", "Affy"), col=c("blue", "green"), lty=1, lwd=5)
+plotOverlappingHist(a,b, breaks=100, xlim=c(0,10))
+legend("topright", c("Agilent", "Affy"), col=c("blue", "green"), lty=1, lwd=3)
+plotOverlappingHist <- function(a, b, colors=c("green","blue","gray50"),#
+                                breaks=NULL, xlim=NULL, ylim=NULL){#
+#
+  ahist=NULL#
+  bhist=NULL#
+#
+  if(!(is.null(breaks))){#
+    ahist=hist(a,breaks=breaks,plot=F)#
+    bhist=hist(b,breaks=breaks,plot=F)#
+  } else {#
+    ahist=hist(a,plot=F)#
+    bhist=hist(b,plot=F)#
+#
+    dist = ahist$breaks[2]-ahist$breaks[1]#
+    breaks = seq(min(ahist$breaks,bhist$breaks),max(ahist$breaks,bhist$breaks),dist)#
+#
+    ahist=hist(a,breaks=breaks,plot=F)#
+    bhist=hist(b,breaks=breaks,plot=F)#
+  }#
+#
+  if(is.null(xlim)){#
+    xlim = c(min(ahist$breaks,bhist$breaks),max(ahist$breaks,bhist$breaks))#
+  }#
+#
+  if(is.null(ylim)){#
+    ylim = c(0,max(ahist$counts,bhist$counts))#
+  }#
+#
+  overlap = ahist#
+  for(i in 1:length(overlap$counts)){#
+    if(ahist$counts[i] > 0 & bhist$counts[i] > 0){#
+      overlap$counts[i] = min(ahist$counts[i],bhist$counts[i])#
+    } else {#
+      overlap$counts[i] = 0#
+    }#
+  }#
+#
+  plot(ahist, xlim=xlim, ylim=ylim, col=colors[1], ylab="Number of Detections", xlab="log10 (length)", main="Deletions")#
+  plot(bhist, xlim=xlim, ylim=ylim, col=colors[2], add=T)#
+  plot(overlap, xlim=xlim, ylim=ylim, col=colors[1], add=T)#
+}
+a = log10(af[af[,6]<0,3]-af[af[,6]<0,2])#
+b = log10(ag[ag[,4]<0,3]-ag[ag[,4]<0,2])
+plotOverlappingHist(a,b, breaks=100, xlim=c(0,10))
+legend("topright", c("Agilent", "Affy"), col=c("blue", "green"), lty=1, lwd=3)
+summary(ag)
+m=max(log10(ag[ag[,4]<0,3]-ag[ag[,4]<0,2]))
+m
+ag[log10(ag[ag[,4]<0,3]-ag[ag[,4]<0,2])>m,1:6]
+m=max(log10(af[af[,4]<0,3]-af[af[,4]<0,2]))
+af[1,]
+m=max(af[af[,6]<0,3]-af[af[,6]<0,2]))
+m=max(af[af[,6]<0,3]-af[af[,6]<0,2])
+ag[log10(ag[ag[,4]<0,3]-ag[ag[,4]<0,2])>m,1:6]
+m
+m=max(log10(af[af[,6]<0,3]-af[af[,6]<0,2]))
+ag[log10(ag[ag[,4]<0,3]-ag[ag[,4]<0,2])>m,1:6]
+a = ag[log10(ag[ag[,4]<0,3]-ag[ag[,4]<0,2])>m,1:6]
+a[a[,4]<0,1:6]
+length(a[a[,4]<0,1])
+a[order(a[,1],a[,2],a[,3]),]
+a[order(a[,1],a[,2],a[,3]),1:5]
+a[order(a[,1],a[,2],a[,3]),1:4]
+aa = ag[ag[,4]<0,]
+summary(aa)
+a = aa[log10(aa[aa[,4]<0,3]-aa[a[,4]<0,2])>m,]
+a = aa[log10(aa[aa[,4]<0,3]-aa[aa[,4]<0,2])>m,]
+summary(a)
+cbind(a[,1:4], a[,8:11])
+p = cbind(a[,1:4], a[,8:11])
+p[order(p[,1],p[,2],p[,3]),]
+cbind(a[,1:5], a[,8:11])
+p=cbind(a[,1:5], a[,8:11])
+p[order(p[,1],p[,2],p[,3]),]
+length(p[,1])
+write.table(p[order(p[,1],p[,2],p[,3]),], file="UKBS_deletions_larger_then_in_affy_report.txt", sep="\t", row.names=F, col.names=F, quote=F)
+pp=p[order(p[,1],p[,2],p[,3]),1:3]
+write.table(paste("chr", pp[,1], sep=""), pp[,2:3]), file="UKBS_deletions_larger_then_in_affy_report.bed", sep="\t", row.names=F, col.names=F, quote=F)
+write.table(cbind(paste("chr", pp[,1], sep=""), pp[,2:3]), file="UKBS_deletions_larger_then_in_affy_report.bed", sep="\t", row.names=F, col.names=F, quote=F)
+summary(pp)
+summary(p)
+length(unique(p[,2]))
+length(unique(p[,3]))
+f = read.table("UKBS_deletions_larger_then_in_affy_report.txt")
+summary(f)
+f = read.table("UKBS_deletions_larger_then_in_affy_report.txt")
+summary(f)
+length(ag[,1])
+d = read.table("recalibrate_filter_novelty_25_UKBS.txt")
+length(d[,1])
+d[1:10,]
+agg = cbind(d[,1], ag)
+aa = agg[agg[,4]<0,]
+a = aa[log10(aa[aa[,4]<0,3]-aa[a[,4]<0,2])>m,]
+summary(a)
+a = aa[log10(aa[aa[,5]<0,3]-aa[aa[,5]<0,2])>m,]
+summary(a)
+summary(aa)
+aa = agg[agg[,5]<0,]
+summary(aa)
+a = aa[log10(aa[aa[,5]<0,3]-aa[aa[,5]<0,2])>m,]
+summary(aa)
+length(a[,1])
+a = aa[log10(aa[aa[,5]<0,4]-aa[aa[,5]<0,3])>m,]
+length(a[,1])
+a
+summary(a)
+summary(q)
+qc = vector()#
+#
+for(x in 1:length(a[,1])) {#
+	qc[x] = q[grep(as.character(a[x,1]), q[,1]),4]#
+}
+qc
+a[1,]
+plot(a[,5], qc)
+plot(a[,6], qc)
+plot(a[,4]-a[,3], qc)
+plot(log10(a[,4]-a[,3]), qc)
+par(mfrow=c(2,1))
+plot(log10(a[,4]-a[,3]), qc)
+par(mfrow=c(1,2))
+plot(log10(a[,4]-a[,3]), qc)
+plot(a[,6], qc)
+u = unqiue(a[,1])
+u = unique(a[,1])
+u
+for(x in 1:length(u)) {#
+	com = paste("cp ../20/OUT/*", u[x], "*/U*.txt ." , sep="")#
+	print(com)#
+}
+for(x in 1:length(u)) {#
+	com = paste("cp ../2*/OUT/*", u[x], "*/U*.txt ." , sep="")#
+	system(com)#
+}
+#
+#
+#
+#
+#
+#
+00fe
+#
+#
+#
+#
+#
+#
+00fe#
+#
+vrevk
+#
+#
+#
+#
+#
+#
+00fe#
+#
+vrevk#
+#
+ 
+a
+a=a[order(a[,4]-a[,2], decreasing=T),]
+a
+a[1:10,]
+x=1
+plotfea <- function(d, chr, start, stop, rat,qc,sc, tit) {#
+	len = (stop-start)*10#
+	dd=d[d[,1]==chr,]#
+	dd=dd[dd[,2]>=start-len,]#
+	dd=dd[dd[,3]<=stop+len,]#
+	s = max(abs(dd[,4]))+0.2#
+	mi = min(dd[,2])#
+	ma = max(dd[,3])#
+	plot(dd[,2], dd[,4], ylim=c(-s,s), xlim=c(mi,ma), pch="", ylab="log2 ratio", xlab="bp", main=tit)#
+	for(x in 1:length(dd[,1])) {#
+		segments(dd[x,2], dd[x,4], dd[x,3], dd[x,4])#
+	}#
+	abline(h=0, col="blue", lwd=2); #
+	abline(v=start, col="green", lty="dashed"); abline(v=stop, col="green", lty="dashed")	#
+	segments(start, rat, stop, rat, col="red", lwd=3)#
+	legend("topleft", c(paste("m.ratio: ", round(rat,3), sep="")))#
+	legend("topright", c(paste("Size (bp): ", stop-start, sep="")))#
+	legend("bottomleft", c(paste("dLRs: ", round(qc,3), sep="")))#
+	legend("bottomright", c(paste("adj.w.score: ", round(sc,3), sep="")))#
+}
+q
+data = read.table(files[grep(as.character(a[x,1]), files)])#
+	qc = q[grep(as.character(a[x,1]), q[,1]),4]
+as.character(a[x,1])
+dir()
+data = read.table(files[grep(as.character(a[x,1]), files)])#
+	qc = q[grep(as.character(a[x,1]), q[,1]),4]
+files()
+files
+files = dir()
+files
+data = read.table(files[grep(as.character(a[x,1]), files)])#
+	qc = q[grep(as.character(a[x,1]), q[,1]),4]
+plotfea(data, ndup[x,3], ndup[x,4], ndup[x,5], ndup[x,6], qc , ndup[x,12], paste("Dels larger than affy - ", x, sep=""))
+plotfea(data, a[x,3], a[x,4], a[x,5], a[x,6], qc , a[x,12], paste("Dels larger than affy - ", x, sep=""))
+a[1,]
+plotfea(data, a[x,2], a[x,3], a[x,4], a[x,5], qc , a[x,11], paste("Dels larger than affy - ", x, sep=""))
+for(x in 1:a[,1]) {#
+#
+	data = read.table(files[grep(as.character(a[x,1]), files)])#
+	qc = q[grep(as.character(a[x,1]), q[,1]),4]#
+	jpeg(paste("../dels_larger_then_affy_", x, ".jpg", sep=""), width=1000, height=600)#
+	plotfea(data, a[x,2], a[x,3], a[x,4], a[x,5], qc , a[x,11], paste("Chr", a[x,2], sep=""))	#
+	dev.off()#
+#
+}
+a
+back = a
+for(x in 1:length(a[,1])) {#
+#
+	data = read.table(files[grep(as.character(a[x,1]), files)])#
+	qc = q[grep(as.character(a[x,1]), q[,1]),4]#
+	jpeg(paste("../dels_larger_then_affy_", x, ".jpg", sep=""), width=1000, height=600)#
+	plotfea(data, a[x,2], a[x,3], a[x,4], a[x,5], qc , a[x,11], paste("Chr", a[x,2], sep=""))	#
+	dev.off()#
+#
+}
+a[1,]
+for(x in 1:length(a[,1])) {#
+#
+	check =  files[grep(as.character(a[x,1])]#
+	if(length(check)>0) {#
+	data = read.table(files[grep(as.character(a[x,1]), files)])#
+	qc = q[grep(as.character(a[x,1]), q[,1]),4]#
+	jpeg(paste("../dels_larger_then_affy_", x, ".jpg", sep=""), width=1000, height=600)#
+	plotfea(data, a[x,2], a[x,3], a[x,4], a[x,5], qc , a[x,11], paste("Chr", a[x,2], sep=""))	#
+	dev.off()#
+	}#
+}
+for(x in 1:length(a[,1])) {#
+#
+	check = files[grep(as.character(a[x,1]), files)]#
+	if(length(check)>0) {#
+	data = read.table(files[grep(as.character(a[x,1]), files)])#
+	qc = q[grep(as.character(a[x,1]), q[,1]),4]#
+	jpeg(paste("../dels_larger_then_affy_", x, ".jpg", sep=""), width=1000, height=600)#
+	plotfea(data, a[x,2], a[x,3], a[x,4], a[x,5], qc , a[x,11], paste("Chr", a[x,2], sep=""))	#
+	dev.off()#
+	}#
+}
+write.table(back, file="Dels_larger_then_affy.txt", sep="\t", row.names=F, col.names=F, quote=F)
+a
+a[1,]
+u = unique(a[,6])#
+#
+r = NULL#
+#
+for(x in 1:length(u)) {#
+#
+	f = a[a[,6]==u[x],]#
+	rr = f[which.max(a[,4]-a[,3]),]#
+	r=rbind(r,rr)#
+}
+r
+a[1,]
+u
+u = unique(a[,6])#
+#
+r = NULL#
+#
+for(x in 1:length(u)) {#
+#
+	f = a[a[,6]==u[x],]#
+	rr = f[which.max(f[,4]-f[,3]),]#
+	r=rbind(r,rr)#
+}
+r
+r=r[order(r[,11]),]
+r
+r=r[r[,12]<80,]
+summary(r)
+r
+a=r
+for(x in 1:length(a[,1])) {#
+#
+	check = files[grep(as.character(a[x,1]), files)]#
+	if(length(check)>0) {#
+	data = read.table(files[grep(as.character(a[x,1]), files)])#
+	qc = q[grep(as.character(a[x,1]), q[,1]),4]#
+	jpeg(paste("../dels_larger_then_affy_", x, ".jpg", sep=""), width=1000, height=600)#
+	plotfea(data, a[x,2], a[x,3], a[x,4], a[x,5], qc , a[x,11], paste("Chr", a[x,2], "- %Novel ", a[x,12], sep=""))	#
+	dev.off()#
+	}#
+}
+files = dir()
+v
+for(x in 1:length(a[,1])) {#
+#
+	check = files[grep(as.character(a[x,1]), files)]#
+	if(length(check)>0) {#
+	data = read.table(files[grep(as.character(a[x,1]), files)])#
+	qc = q[grep(as.character(a[x,1]), q[,1]),4]#
+	jpeg(paste("../dels_larger_then_affy_", x, ".jpg", sep=""), width=1000, height=600)#
+	plotfea(data, a[x,2], a[x,3], a[x,4], a[x,5], qc , a[x,11], paste("Chr", a[x,2], "- %Novel ", a[x,12], sep=""))	#
+	dev.off()#
+	}#
+}
+plot(log10(a[,4]-a[,3]), qc, pch=20, ylab="dLRs", xlab="log10 (length)")
+a = aa[log10(aa[aa[,5]<0,4]-aa[aa[,5]<0,3])>m,]
+plot(log10(a[,4]-a[,3]), qc, pch=20, ylab="dLRs", xlab="log10 (length)")
+qc
+qc = vector()#
+#
+for(x in 1:length(a[,1])) {#
+	qc[x] = q[grep(as.character(a[x,1]), q[,1]),4]#
+}
+plot(log10(a[,4]-a[,3]), qc, pch=20, ylab="dLRs", xlab="log10 (length)")
+plot(a[,6], qc, pch=20, ylab="dLRs", xlab="Number of probes")
+file = "US22502573_253122010809_S01_CGH_105_Dec08.txt"
+file
+grep("2531220", file)
+grep("25312220", file)
+if(grep("25312220", file)) { print ("hi") }
+if(length(grep("25312220", file))>0) { print ("hi") }
+if(length(grep("2531220", file))>0) { print ("hi") }
+?as.integer
+dir()
+d = read.table("US22502573_253122110971_S01_CGH_105_Dec08_FinalReport.txt", sep="\t")
+d[1,]
+hist(d[,4], 2000)
+hist(d[,10], 2000)
+length(d[,1])
+length(d[d[,10]>0,1])
+files = dir()#
+#
+v=vector()#
+for(x in 1:length(files)) {#
+#
+		d = read.table(files[x])#
+	v[x]=length(d[d[,10]>0,1])#
+}
+library(ADM3)
+example_ADM3()
+exampleADM3()
+d = read.table("example.bed")
+summary(d)
+plot(d[,2], d[,4], pch=46)

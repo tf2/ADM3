@@ -1,0 +1,9 @@
+export(
+dLRs,
+getCut,
+mapBreak,
+ADM3,
+plotADM3,
+exampleADM3
+)
+exportClasses("ADM3")
